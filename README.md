@@ -169,6 +169,8 @@ Thanks to everyone who contributed to all assets repositories (both here and in 
 
 Thanks to everyone who helped with the [`puella historia`](https://github.com/LiviaMedeiros/puella-historia) project that made exhaustive implementation possible.
 
+Thanks to `sisyphus888` who provided server for the downloadable assets.
+
 ---
 
 ## Copyright notice
