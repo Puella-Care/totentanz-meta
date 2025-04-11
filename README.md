@@ -21,8 +21,8 @@ Totentanz is a project preserving *Magia Record: Puella Magi Madoka Magica Side 
 
 Contributions in any of the following areas are welcome. There are several overlay repositories:
 - Downloadable assets overlay: [`Puella-Care/en-download`](https://github.com/Puella-Care/en-download)
-- Image web assets: [`Puella-Care/en-image_web`](https://github.com/Puella-Care/en-image_web)
-- Text web assets: [`Puella-Care/en-text`](https://github.com/Puella-Care/en-text)
+- Image web assets overlay: [`Puella-Care/en-image_web`](https://github.com/Puella-Care/en-image_web)
+- Text web assets overlay: [`Puella-Care/en-text`](https://github.com/Puella-Care/en-text)
 
 For bug reports or anything else, open [issues](https://github.com/Puella-Care/totentanz-meta/issues).
 
@@ -39,7 +39,7 @@ Totentanz is a project maintained on a non-commercial basis. While it's free for
   - XMR: `46w6fcnMy4kdtxwLSxXZqYbVAHp4Cu47HPiQfzrqM761Qbj7xMJojmkEPhhc3jT98VDw746hgRQHgDh7RtHEnB3iSMu482T`
   - For any other ways, contact via `livia@cirno.name` or open an issue in this repository.
   - If you want to be credited as sponsor, contact via same email.
-- **Spread the Word:** Share Totentanz with your community.
+- **Spread the Word:** Share Totentanz with your community.  
   There are no limitations or restrictions on spreading the info and links.
 
 ---
@@ -92,6 +92,7 @@ To improve the gameplay experience, there are a few exceptions:
 - `userDeck` data with user-defined decks.
 - `userQuestBattleResult` data which allows playing quests.
 - Patrols subsystem works on shared basis rather than per-user.
+
 All of these are preserved in memory only, i.e. changes can be wiped after timeout or server restart.
 
 **Q: What is required for persistent storage?**  
@@ -101,7 +102,7 @@ A: Async `node:sqlite/promises` API.
 A: The client part is basically [`magiatranslate`](https://github.com/rayshift/magiatranslate) using different servers.
 
 **Q: Where do I find history of scenario translations and credits for the translators?**  
-A: The current scenario translations are in the [`Puella-Care/en-download`](https://github.com/Puella-Care/en-download) repository.
+A: The current scenario translations are in the [`Puella-Care/en-download`](https://github.com/Puella-Care/en-download) repository.  
 All previous contributions were made to the MagiaTranslate project, and can be found in the [`kamihama/magia-assets`](https://git.rayshift.io/kamihama/magia-assets) repository.
 
 **Q: Why can I play auto and x3 speed in battles that should not have it?**  
@@ -132,11 +133,11 @@ A: Fix your connection.
 A: Open pull request to the corresponding overlay repository.
 
 **Q: The M-Girl transformation videos are not playing, how to fix?**  
-A: Only high quality movies are supported, make sure to select and download them.
+A: Only high quality movies are supported, make sure to select and download them.  
 Only full download is available, per-M-Girl download will be available later.
 
 **Q: The story that was supposed to be voiced is not voiced, how to fix?**  
-A: Make sure to download full voices.
+A: Make sure to download full voices.  
 Only full download is available, per-story download might be available later.
 
 **Q: Why only a few events are available?**  
