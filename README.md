@@ -72,6 +72,9 @@ A: Visit the GitHub repos listed in above and submit a pull request.
 **Q: Can this be played offline?**  
 A: No, the game requires connection to the server to work.
 
+**Q: Can this be played on PC?**  
+A: Yes, by using virtual machine with Android installed.
+
 **Q: Will installing it overwrite the original game?**  
 A: No, the game will be installed separately.
 
