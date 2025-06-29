@@ -58,6 +58,8 @@ For legal or official matters, do not hesitate to contact via: `9@cirno.name`
 
 For everything else, contact via: `livia@cirno.name`
 
+To make sure your email gets through, please include `Totentanz` in the subject or body. Spam filters are stupid, but this word is explicitly allowlisted.
+
 ---
 
 ## FAQ
