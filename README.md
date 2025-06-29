@@ -171,6 +171,18 @@ A: Open pull request or issue; or contact via email for legal and official matte
 
 ---
 
+## Sponsors
+
+Notes:  
+The list is updated manually, sometimes there might be a delay. If you feel like your name must be here, or if you wish it to be changed, or if you wish it to be removed, please open a PR or contact me.  
+The list is sorted alphabetically, case-insensitive.
+
+| ![AntimonyGamer](https://images.boosty.to/user/40383229/avatar?croped=1&mh=64&mw=64) | ![Destroyer068](https://images.boosty.to/user/40393353/avatar?croped=1&mh=64&mw=64) | ![VirusLord](https://images.boosty.to/user/40383226/avatar?croped=1&mh=64&mw=64) |
+|:--:|:--:|:--:|
+| AntimonyGamer | Destroyer068 | VirusLord |
+
+---
+
 ## Acknowledgements
 
 Thanks to `Magica Quartet/Aniplex・Magia Record Partners` and everyone involved in Magia Record for the game itself.
