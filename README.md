@@ -40,6 +40,7 @@ For bug reports or anything else, open [issues](https://github.com/Puella-Care/t
 
 Totentanz is a project maintained on a non-commercial basis. While it's free for everyone:
 - **Financial Support:** Consider donating to cover domain, development, and hosting costs.
+  - Boosty: https://boosty.to/PuellaCare/donate
   - BTC: `bc1qlz0azz0mq32mt3ja30gzd9h5t9tk4zzr207aqv`
   - LTC: `LNUNTsqG9S4PqQwqMPL5sD3ciPxNPS8CFd`
   - ETH: `0xB14ad0d9c20f083e90Ae9c14E6F231E6Fa1EE2A2`
