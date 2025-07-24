@@ -147,8 +147,8 @@ A: Fix your connection.
 A: Open pull request to the corresponding overlay repository.
 
 **Q: The M-Girl transformation videos are not playing, how to fix?**  
-A: Only high quality movies are supported, make sure to select and download them.  
-Only full download is available, per-M-Girl download will be available later.
+A: Make sure to enable High Quality Videos in Settings -> Manage Data.  
+Low Quality Videos are also available, but not recommended.
 
 **Q: The story that was supposed to be voiced is not voiced, how to fix?**  
 A: Make sure to download full voices.  
