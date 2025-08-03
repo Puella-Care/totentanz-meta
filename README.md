@@ -146,6 +146,15 @@ A: Fix your connection.
 **Q: I found a typo or image error, how do I fix it?**  
 A: Open pull request to the corresponding overlay repository.
 
+**Q: How likely is iOS version?**  
+A: Easy if someone manages to make `magiatranslate`-patched version of iOS client app. Impossible otherwise.
+
+**Q: I heard that it was feasible with vanilla `v3.1.9`, is that still true?**  
+A: Not anymore. Vanilla app now points to the `Capricieux` server. See [#12](https://github.com/Puella-Care/totentanz-meta/issues/12) and [#18](https://github.com/Puella-Care/totentanz-meta/pull/18).
+
+**Q: What is `Capricieux`?**  
+A: Separate server in Tokyo designed to strictly separate Archive App from this project. See [`Puella-Care/capricieux`](https://github.com/Puella-Care/capricieux) repository.
+
 **Q: The M-Girl transformation videos are not playing, how to fix?**  
 A: Make sure to enable High Quality Videos in Settings -> Manage Data.  
 Low Quality Videos are also available, but not recommended.
