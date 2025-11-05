@@ -7,15 +7,7 @@ Totentanz is a project preserving *Magia Record: Puella Magi Madoka Magica Side 
 ## How to Play
 
 1. **Download the APK:**  
-   Get the latest [APK file](https://magi-reco.com/totentanz-latest.apk).
-   <details><summary>Checksums</summary>
-
-   ```
-   sha2-384 e181dfb83178504e4251f8d6b2ccb1e632c3bc8596f608fbf819c895b9f6bcee29273147fe03ab1d4b97d64f76281846
-   sha3-384 38ff618b27f4d031960a74a2747c3771e6aff9d2bfbdd7b7d73fe43bbc2679799500f8155ec6319b1210a739c32e7325
-   ```
-
-   </details>
+   Get the latest [release](https://github.com/Puella-Care/client-apk/releases).
 
 2. **Install on Android:**  
    Follow your device's standard instructions to install APKs.
