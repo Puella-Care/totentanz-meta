@@ -23,6 +23,7 @@ Contributions in any of the following areas are welcome. There are several overl
 - Downloadable assets overlay: [`Puella-Care/en-download`](https://github.com/Puella-Care/en-download)
 - Image web assets overlay: [`Puella-Care/en-image_web`](https://github.com/Puella-Care/en-image_web)
 - Text web assets overlay: [`Puella-Care/en-text`](https://github.com/Puella-Care/en-text)
+- Server-side data overlay: [`Puella-Care/en-data`](https://github.com/Puella-Care/en-data)
 
 For bug reports or anything else, open [issues](https://github.com/Puella-Care/totentanz-meta/issues).
 
