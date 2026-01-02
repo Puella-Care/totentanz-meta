@@ -1,0 +1,85 @@
+name: API server watchdog
+
+on:
+  schedule:
+    - cron: '10 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Test API server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        protocol:
+          - http
+          - https
+        entry:
+          - path: api/system/native/getDomainPath
+            method: POST
+            requiredProperties:
+              - resultCode
+          - path: api/page/TopPage
+            method: GET
+            requiredProperties:
+              - currentTime
+          - path: api/page/NewVersionRecommend
+            method: GET
+            requiredProperties:
+              - resultCode
+              - requiredVersion
+
+    steps:
+      - name: Test ${{ matrix.protocol }} ${{ matrix.entry.path }}
+        env:
+          HOST: ${{ secrets.API_HOST }}
+          SUBPATH: ${{ secrets.SUBPATH }}
+          PUBKEY: ${{ secrets.API_PUBKEY }}
+          HEADERS: ${{ secrets.HEADERS }}
+        run: |
+          PROTOCOL="${{ matrix.protocol }}"
+          FILEPATH="${{ matrix.entry.path }}"
+          METHOD="${{ matrix.entry.method }}"
+          REQUIRED_PROPERTIES=($(jq -r '.[]' <<< '${{ toJson(matrix.entry.requiredProperties) }}'))
+
+          BODYFILE=$(mktemp)
+          CURL_HEADER_OPTS=()
+          while IFS= read -r line; do
+            CURL_HEADER_OPTS+=("-H" "$line")
+          done <<< "$HEADERS"
+          CURL_OPTS=(-X "${METHOD}" -f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
+          if [ "${PROTOCOL}" = "https" ]; then
+            CURL_OPTS+=(--tlsv1.2 --pinnedpubkey "${PUBKEY}")
+          fi
+          RESPONSE=$(curl "${CURL_HEADER_OPTS[@]}" "${CURL_OPTS[@]}")
+          CODE=$(echo "${RESPONSE}" | head -1 | cut -d' ' -f2)
+          SERVER=$(echo "${RESPONSE}" | grep -i '^Server:' | head -1 | cut -d' ' -f2- | tr -d '\r')
+
+          test "${SERVER}" = "Totentanz"
+
+          if [ "${PROTOCOL}" = "http" ]; then
+            test "${CODE}" = "301"
+            LOCATION=$(echo "${RESPONSE}" | grep -i '^Location:' | head -1 | cut -d' ' -f2- | tr -d '\r')
+            test "${LOCATION}" = "https://${HOST}/${SUBPATH}/${FILEPATH}"
+            SIZE=$(stat -c%s "${BODYFILE}")
+            test "${SIZE}" -eq 0
+          fi
+
+          if [ "${PROTOCOL}" = "https" ]; then
+            test "${CODE}" = "200"
+            jq . "${BODYFILE}" > /dev/null
+            for prop in "${REQUIRED_PROPERTIES[@]}"; do
+              VALUE="$(jq -r ".${prop}" "${BODYFILE}")"
+              if [ "$prop" = "currentTime" ]; then
+                test "${VALUE}" != "null"
+                RESPONSE_TS="$(TZ=Asia/Tokyo date -d "${VALUE}" +%s)"
+                NOW_TS="$(TZ=Asia/Tokyo date +%s)"
+                DIFF=$(( RESPONSE_TS > NOW_TS ? RESPONSE_TS - NOW_TS : NOW_TS - RESPONSE_TS ))
+                test "${DIFF}" -le 60
+              else
+                test "$VALUE" != "null"
+              fi
+            done
+          fi
+
+          rm -f "${BODYFILE}"
