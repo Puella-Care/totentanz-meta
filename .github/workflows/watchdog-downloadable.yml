@@ -45,7 +45,10 @@ jobs:
 
           MURL="${BASE_URL}/magica/resource/download/asset/master/asset_${MANIFEST}.json.gz"
           M_BODY=$(mktemp)
-          curl -s -f --tlsv1.2 "${CURL_HEADER_OPTS[@]}" -o "${M_BODY}" "${MURL}"
+          M_HDRS=$(mktemp)
+          curl -s -f --compressed --tlsv1.2 "${CURL_HEADER_OPTS[@]}" -D "${M_HDRS}" -o "${M_BODY}" "${MURL}"
+          grep -qi '^Content-Encoding: gzip' "${M_HDRS}"
+          rm -f "${M_HDRS}"
 
           jq . "${M_BODY}" > /dev/null
           LEN=$(jq length "${M_BODY}")
