@@ -1,4 +1,4 @@
-name: Web assets server watchdog
+name: Web assets server status
 
 on:
   schedule:
@@ -36,8 +36,8 @@ jobs:
           BODYFILE=$(mktemp)
           CURL_HEADER_OPTS=()
           while IFS= read -r line; do
-            CURL_HEADER_OPTS+=("-H" "$line")
-          done <<< "$HEADERS"
+            CURL_HEADER_OPTS+=("-H" "${line}")
+          done <<< "${HEADERS}"
           CURL_OPTS=(-f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
           if [ "${PROTOCOL}" = "https" ]; then
             CURL_OPTS+=(--tlsv1.2 --pinnedpubkey "${PUBKEY}")

@@ -1,4 +1,4 @@
-name: Downloadable assets server watchdog
+name: Downloadable assets server status
 
 on:
   schedule:
