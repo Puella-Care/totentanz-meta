@@ -1,0 +1,72 @@
+name: Downloadable assets server watchdog
+
+on:
+  schedule:
+    - cron: '30 */8 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Test downloadable assets server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        entry:
+          - name: en
+        manifest:
+          - char_list
+          - fullvoice
+          - main
+          - movieall_low
+          - movieall_high
+          - voice
+
+    steps:
+      - name: Test ${{ matrix.entry.name }} ${{ matrix.manifest }}
+        env:
+          ENTRY_URL: ${{ secrets.ENTRY_URL }}
+          PUBKEY: ${{ secrets.ENTRY_PUBKEY }}
+          HEADERS: ${{ secrets.HEADERS }}
+        run: |
+          MANIFEST="${{ matrix.manifest }}"
+
+          CURL_HEADER_OPTS=()
+          while IFS= read -r line; do
+            CURL_HEADER_OPTS+=("-H" "${line}")
+          done <<< "${HEADERS}"
+
+          BODY=$(mktemp)
+          curl -s -f --tlsv1.2 --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" -o "${BODY}" "${ENTRY_URL}"
+          jq . "${BODY}" > /dev/null
+          jq -e '.status == 200' "${BODY}" > /dev/null
+          BASE_URL=$(jq -r .response.endpoint "${BODY}")
+          rm -f "${BODY}"
+          test -n "${BASE_URL}"
+
+          MURL="${BASE_URL}/magica/resource/download/asset/master/asset_${MANIFEST}.json.gz"
+          M_BODY=$(mktemp)
+          curl -s -f --tlsv1.2 "${CURL_HEADER_OPTS[@]}" -o "${M_BODY}" "${MURL}"
+
+          jq . "${M_BODY}" > /dev/null
+          LEN=$(jq length "${M_BODY}")
+          test "${LEN}" -gt 0
+
+          IDX=$(( RANDOM % LEN ))
+          MANIFEST_JSON=$(jq -r ".[$IDX]" "${M_BODY}")
+          rm -f "${M_BODY}"
+
+          EXPECTED_MD5=$(jq -r .md5 <<< "${MANIFEST_JSON}")
+          FILE_LIST_LEN=$(jq '.file_list | length' <<< "${MANIFEST_JSON}")
+          ASSEMBLED=$(mktemp)
+
+          for i in $(seq 0 $(( FILE_LIST_LEN - 1 ))); do
+            CHUNK_REL=$(jq -r ".file_list[$i].url" <<< "${MANIFEST_JSON}")
+            CHUNK_SIZE_EXPECT=$(jq -r ".file_list[$i].size" <<< "${MANIFEST_JSON}")
+            CHUNK_URL="${BASE_URL}/magica/resource/download/asset/master/resource/${CHUNK_REL}"
+            CHUNK_BYTES=$(curl -s -f --tlsv1.2 "${CURL_HEADER_OPTS[@]}" "${CHUNK_URL}" | tee -a "${ASSEMBLED}" | wc -c | tr -d '[:space:]')
+            test "${CHUNK_BYTES}" -eq "${CHUNK_SIZE_EXPECT}"
+          done
+
+          ACTUAL_MD5=$(md5sum "${ASSEMBLED}" | cut -d' ' -f1)
+          test "${ACTUAL_MD5}" = "${EXPECTED_MD5}"
+          rm -f "${ASSEMBLED}"
