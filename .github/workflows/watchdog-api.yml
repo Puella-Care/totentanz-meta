@@ -15,17 +15,21 @@ jobs:
           - http
           - https
         entry:
-          - path: api/system/native/getDomainPath
+          - path: system/check
+            method: GET
+            requiredProperties:
+              - resultCode
+          - path: system/native/getDomainPath
             method: POST
             requiredProperties:
               - resultCode
             payload:
               version: 3.1.9
-          - path: api/page/TopPage
+          - path: page/TopPage
             method: GET
             requiredProperties:
               - currentTime
-          - path: api/page/NewVersionRecommend
+          - path: page/NewVersionRecommend
             method: GET
             requiredProperties:
               - resultCode
@@ -52,7 +56,7 @@ jobs:
             CURL_HEADER_OPTS+=("-H" "${line}")
           done <<< "${HEADERS}"
 
-          CURL_OPTS=(-X "${METHOD}" -f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
+          CURL_OPTS=(-X "${METHOD}" -f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/api/${FILEPATH}")
           if [ "${PROTOCOL}" = "https" ]; then
             CURL_OPTS+=(--tlsv1.2 --pinnedpubkey "${PUBKEY}")
           fi
@@ -71,7 +75,7 @@ jobs:
           if [ "${PROTOCOL}" = "http" ]; then
             test "${CODE}" = "301"
             LOCATION=$(echo "${RESPONSE}" | grep -i '^Location:' | head -1 | cut -d' ' -f2- | tr -d '\r')
-            test "${LOCATION}" = "https://${HOST}/${SUBPATH}/${FILEPATH}"
+            test "${LOCATION}" = "https://${HOST}/${SUBPATH}/api/${FILEPATH}"
             SIZE=$(stat -c%s "${BODYFILE}")
             test "${SIZE}" -eq 0
           fi
