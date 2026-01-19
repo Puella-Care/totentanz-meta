@@ -19,6 +19,8 @@ jobs:
             method: POST
             requiredProperties:
               - resultCode
+            payload:
+              version: 3.1.9
           - path: api/page/TopPage
             method: GET
             requiredProperties:
@@ -41,20 +43,29 @@ jobs:
           FILEPATH="${{ matrix.entry.path }}"
           METHOD="${{ matrix.entry.method }}"
           REQUIRED_PROPERTIES=($(jq -r '.[]' <<< '${{ toJson(matrix.entry.requiredProperties) }}'))
+          PAYLOAD='${{ toJson(matrix.entry.payload || null) }}'
 
-          BODYFILE=$(mktemp)
+          BODYFILE="$(mktemp)"
+
           CURL_HEADER_OPTS=()
           while IFS= read -r line; do
             CURL_HEADER_OPTS+=("-H" "${line}")
           done <<< "${HEADERS}"
+
           CURL_OPTS=(-X "${METHOD}" -f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
           if [ "${PROTOCOL}" = "https" ]; then
             CURL_OPTS+=(--tlsv1.2 --pinnedpubkey "${PUBKEY}")
           fi
+
+          if [ "${PROTOCOL}" = "https" ] && [ "${PAYLOAD}" != "null" ] && [ -n "${PAYLOAD}" ]; then
+            CURL_HEADER_OPTS+=("-H" "Content-Type: application/json" "-H" "Content-Length: ${#PAYLOAD}")
+            CURL_OPTS+=("--data" "${PAYLOAD}")
+          fi
+
           RESPONSE=$(curl "${CURL_HEADER_OPTS[@]}" "${CURL_OPTS[@]}")
           CODE=$(echo "${RESPONSE}" | head -1 | cut -d' ' -f2)
-          SERVER=$(echo "${RESPONSE}" | grep -i '^Server:' | head -1 | cut -d' ' -f2- | tr -d '\r')
 
+          SERVER=$(echo "${RESPONSE}" | grep -i '^Server:' | head -1 | cut -d' ' -f2- | tr -d '\r')
           test "${SERVER}" = "Totentanz"
 
           if [ "${PROTOCOL}" = "http" ]; then
@@ -70,14 +81,14 @@ jobs:
             jq . "${BODYFILE}" > /dev/null
             for prop in "${REQUIRED_PROPERTIES[@]}"; do
               VALUE="$(jq -r ".${prop}" "${BODYFILE}")"
-              if [ "$prop" = "currentTime" ]; then
+              if [ "${prop}" = "currentTime" ]; then
                 test "${VALUE}" != "null"
                 RESPONSE_TS="$(TZ=Asia/Tokyo date -d "${VALUE}" +%s)"
                 NOW_TS="$(TZ=Asia/Tokyo date +%s)"
                 DIFF=$(( RESPONSE_TS > NOW_TS ? RESPONSE_TS - NOW_TS : NOW_TS - RESPONSE_TS ))
                 test "${DIFF}" -le 60
               else
-                test "$VALUE" != "null"
+                test "${VALUE}" != "null"
               fi
             done
           fi
