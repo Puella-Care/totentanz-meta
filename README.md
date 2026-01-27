@@ -29,6 +29,8 @@ Contributions in any of the following areas are welcome. There are several overl
 - Text web assets overlay: [`Puella-Care/en-text`](https://github.com/Puella-Care/en-text)
 - Server-side data overlay: [`Puella-Care/en-data`](https://github.com/Puella-Care/en-data)
 
+See also: [`CONTRIBUTING.md`](https://github.com/Puella-Care/totentanz-meta/blob/main/CONTRIBUTING.md).
+
 For bug reports or anything else, open [issues](https://github.com/Puella-Care/totentanz-meta/issues).
 
 ---
@@ -43,6 +45,7 @@ Totentanz is a project maintained on a non-commercial basis. While it's free for
   - ETH: `0xB14ad0d9c20f083e90Ae9c14E6F231E6Fa1EE2A2`
   - USDT: `0xB14ad0d9c20f083e90Ae9c14E6F231E6Fa1EE2A2`
   - XMR: `46w6fcnMy4kdtxwLSxXZqYbVAHp4Cu47HPiQfzrqM761Qbj7xMJojmkEPhhc3jT98VDw746hgRQHgDh7RtHEnB3iSMu482T`
+  - XTM: `12NDEKjmJBY4xTuNkgDrv47fmFhwNLNHTrM4eKqoPUFMk3uQYCYoDcGPQX2HEJP9xR6ZErERP2oJoSSCMzC7GRb66nx`
   - For any other ways, contact via `livia@cirno.name` or open an issue in this repository.
   - If you want to be credited as sponsor, contact via same email.
 - **Spread the Word:** Share Totentanz with your community.  
@@ -83,6 +86,9 @@ A: No, the game requires connection to the server to work.
 **Q: Can this be played on PC?**  
 A: Yes, by using virtual machine with Android installed.
 
+**Q: Can this be played in web browser?**  
+A: No. It is feasible, but would require implementing all native features (e.g. live2d, animations, sounds, battles) in WebView realm.
+
 **Q: Will installing it overwrite the original game?**  
 A: No, the game will be installed separately.
 
@@ -90,7 +96,19 @@ A: No, the game will be installed separately.
 A: For several reasons it is not. This may change in the future.
 
 **Q: What language is used for API server?**  
-A: JavaScript, the only dependency is [`fastify`](https://github.com/fastify/fastify).
+A: JavaScript, the only dependency is [`fastify`](https://github.com/fastify/fastify). Unless this answer is updated, there is still no other dependencies.
+
+**Q: What language/tools/hardware is used for the internal infrastructure?**  
+A: Various.
+
+**Q: Was AI used in the development process?**  
+A: No. I am not strictly against AI, but the code quality of current models is too low, and it pushes code to gray legal area.
+
+**Q: What was used as reference for development?**  
+A: The data collected within [`puella-historia`](https://github.com/LiviaMedeiros/puella-historia) project. No other code nor data source was used.
+This was an intentional decision to prove dataset's self-sufficiency and to make server fully independent in both architecture choices and legal matters.
+
+There are gaps in the datasets that were later filled using guesses, historical data preserved as videos/pictures/etc., and asking people who remember things.
 
 **Q: I do [something] but my progress is not saved, why?**  
 A: The server operates in stateless mode.
@@ -110,7 +128,8 @@ All of these are preserved in memory only, i.e. changes can be wiped after timeo
 A: Async `node:sqlite/promises` API.
 
 **Q: What are differences between this APK and the one from Google Play?**  
-A: The client part is basically [`magiatranslate`](https://github.com/rayshift/magiatranslate) using different servers.
+A: The client part is basically [`magiatranslate`](https://github.com/rayshift/magiatranslate) using different servers.  
+See [`Puella-Care/client-apk`](https://github.com/Puella-Care/client-apk) for details.
 
 **Q: Where do I find history of scenario translations and credits for the translators?**  
 A: The current scenario translations are in the [`Puella-Care/en-download`](https://github.com/Puella-Care/en-download) repository.  
@@ -129,10 +148,10 @@ A: The prologue story can be found in the archive. The tutorial battles are not 
 A: Contribute to the translation overlay to make them show in English.
 
 **Q: The texts are in English, is there a Japanese version?**  
-A: It might come in the future.
+A: It might come in the future. It is not a high priority since there's very little interest in Japanese version.
 
 **Q: Is there any region restriction or country code?**  
-A: No.
+A: No, and never will be. As long as your region has access to the World Wide Web, it is accessible.
 
 **Q: I have problem during asset downloading, what do I do?**  
 A: Make sure your connection is stable, continue download in case of error, and be patient.
@@ -140,8 +159,16 @@ A: Make sure your connection is stable, continue download in case of error, and 
 **Q: I have connection problems, what do I do?**  
 A: Fix your connection.
 
-**Q: I found a typo or image error, how do I fix it?**  
+**Q: I think the server might be down, is it for everyone or just me?**  
+A: Check the server status badges on this page. If any of them doesn't say 'passing', it is down for everyone.
+
+**Q: I found a typo, image error, or broken layout; how do I fix it?**  
 A: Open pull request to the corresponding overlay repository.
+
+**Q: I found an image that is not loading, how do I fix it?**  
+A: See [#19](https://github.com/Puella-Care/totentanz-meta/issues/19) for the current list of known missing assets.
+
+If you have one of these, feel free to share or open pull request to the [`Puella-Care/en-image_web`](https://github.com/Puella-Care/en-image_web) repository. If nobody has it, it is lost media and nothing can be done about it.
 
 **Q: How likely is iOS version?**  
 A: Easy if someone manages to make `magiatranslate`-patched version of iOS client app. Impossible otherwise.
@@ -158,16 +185,22 @@ Low Quality Videos are also available, but not recommended.
 
 **Q: The story that was supposed to be voiced is not voiced, how to fix?**  
 A: Make sure to download full voices.  
-Only full download is available, per-story download might be available later.
+Only full download is available, per-story download might become available later.
 
 **Q: Why only a few events are available?**  
-A: Event availability is limited to the data collected. If you have data for more events, feel free to share.
+A: Event availability is limited to the data collected. If you have data for more events, feel free to share.  
+See [#34](https://github.com/Puella-Care/totentanz-meta/issues/34) for the list of currently missing implementations. If the event *type* is already implemented, adding another event of same type only requires the data.
+
+**Q: Where is changelog?**  
+A: All changes to the public part of the project are public in the repositories within [`Puella-Care`](https://github.com/Puella-Care) org. You can see full history of changes.
+
+Significant changes to the internal part of the project are periodically summarized in the [feed on `boosty.to`](https://boosty.to/puellacare).
 
 **Q: There were changes to the web overlays, but I don't see them ingame, how to fix?**  
 A: Clear app cache (do not clear all data).
 
 **Q: Why are enemy waves in quest battles always constant?**  
-A: The data is limited and wave generation is difficult to implement in efficient way.
+A: The data is limited and wave generation is difficult to implement in efficient way. It might be feasible to implement to some extent in the future.
 
 **Q: Why is the total power of arena deck not calculated properly?**  
 A: Performance considerations: user arena matches are generated synchronously, whereas retrieving the actual arena deck must be done asynchronously.
@@ -208,6 +241,6 @@ Thanks to `sisyphus888` who provided server for the downloadable assets.
 
 ## Copyright notice
 
-© 2025 [LiviaMedeiros](https://github.com/LiviaMedeiros).
+© 2025-2026 [LiviaMedeiros](https://github.com/LiviaMedeiros).
 
 Based on [Magia Record: Puella Magi Madoka Magica Gaiden](https://magireco.com/) - Copyright by Magica Quartet/Aniplex, Magia Record Partners
