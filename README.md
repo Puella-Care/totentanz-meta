@@ -170,6 +170,12 @@ A: See [#19](https://github.com/Puella-Care/totentanz-meta/issues/19) for the cu
 
 If you have one of these, feel free to share or open pull request to the [`Puella-Care/en-image_web`](https://github.com/Puella-Care/en-image_web) repository. If nobody has it, it is lost media and nothing can be done about it.
 
+**Q: I encountered the `Blam, Totentanz crashed` error, what to do?**  
+A: Bugreport it. It's an internal server error, usually these are logged and resolved ASAP.
+
+**Q: I encountered any other error, what to do?**  
+A: Bugreport it. It's a client-side error, and steps to reproduce are mandatory to investigate it.
+
 **Q: How likely is iOS version?**  
 A: Easy if someone manages to make `magiatranslate`-patched version of iOS client app. Impossible otherwise.
 
