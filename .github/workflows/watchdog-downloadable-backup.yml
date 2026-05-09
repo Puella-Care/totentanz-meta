@@ -1,13 +1,13 @@
-name: Downloadable assets server status
+name: Downloadable assets backup server status
 
 on:
   schedule:
-    - cron: '30 */8 * * *'
+    - cron: '40 */8 * * *'
   workflow_dispatch:
 
 jobs:
   check:
-    name: Test downloadable assets server
+    name: Test downloadable assets backup server
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,8 +24,8 @@ jobs:
     steps:
       - name: Test ${{ matrix.entry.name }} ${{ matrix.manifest }}
         env:
-          ENTRY_URL: ${{ secrets.ENTRY_URL }}
-          PUBKEY: ${{ secrets.ENTRY_PUBKEY }}
+          BASE_URL: ${{ secrets.BACKUP_URL }}
+          PUBKEY: ${{ secrets.BACKUP_PUBKEY }}
           HEADERS: ${{ secrets.HEADERS }}
         run: |
           MANIFEST="${{ matrix.manifest }}"
@@ -35,18 +35,10 @@ jobs:
             CURL_HEADER_OPTS+=("-H" "${line}")
           done <<< "${HEADERS}"
 
-          BODY="$(mktemp)"
-          curl -s -f --tlsv1.2 --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" -o "${BODY}" "${ENTRY_URL}"
-          jq . "${BODY}" > /dev/null
-          jq -e '.status == 200' "${BODY}" > /dev/null
-          BASE_URL=$(jq -r .response.endpoint "${BODY}")
-          rm -f "${BODY}"
-          test -n "${BASE_URL}"
-
           MURL="${BASE_URL}/magica/resource/download/asset/master/asset_${MANIFEST}.json.gz"
           M_BODY="$(mktemp)"
           M_HDRS="$(mktemp)"
-          curl -s -f --compressed --tlsv1.2 "${CURL_HEADER_OPTS[@]}" -D "${M_HDRS}" -o "${M_BODY}" "${MURL}"
+          curl -s -f --compressed --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" -D "${M_HDRS}" -o "${M_BODY}" "${MURL}"
           grep -qi '^Content-Encoding: gzip' "${M_HDRS}"
           rm -f "${M_HDRS}"
 
@@ -66,7 +58,7 @@ jobs:
             CHUNK_REL=$(jq -r ".file_list[${i}].url" <<< "${MANIFEST_JSON}")
             CHUNK_SIZE_EXPECT=$(jq -r ".file_list[${i}].size" <<< "${MANIFEST_JSON}")
             CHUNK_URL="${BASE_URL}/magica/resource/download/asset/master/resource/${CHUNK_REL}"
-            CHUNK_BYTES=$(curl -s -f --tlsv1.2 "${CURL_HEADER_OPTS[@]}" "${CHUNK_URL}" | tee -a "${ASSEMBLED}" | wc -c | tr -d '[:space:]')
+            CHUNK_BYTES=$(curl -s -f --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" "${CHUNK_URL}" | tee -a "${ASSEMBLED}" | wc -c | tr -d '[:space:]')
             test "${CHUNK_BYTES}" -eq "${CHUNK_SIZE_EXPECT}"
           done
 
