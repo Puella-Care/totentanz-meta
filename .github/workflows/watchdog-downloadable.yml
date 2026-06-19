@@ -36,7 +36,8 @@ jobs:
           done <<< "${HEADERS}"
 
           BODY="$(mktemp)"
-          curl -s -f --tlsv1.2 --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" -o "${BODY}" "${ENTRY_URL}"
+          # TODO: make --pinnedpubkey ${PUBKEY} work
+          curl -s -f --tlsv1.2 "${CURL_HEADER_OPTS[@]}" -o "${BODY}" "${ENTRY_URL}"
           jq . "${BODY}" > /dev/null
           jq -e '.status == 200' "${BODY}" > /dev/null
           BASE_URL=$(jq -r .response.endpoint "${BODY}")

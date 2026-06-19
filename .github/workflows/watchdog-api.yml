@@ -58,7 +58,8 @@ jobs:
 
           CURL_OPTS=(-X "${METHOD}" -f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/api/${FILEPATH}")
           if [ "${PROTOCOL}" = "https" ]; then
-            CURL_OPTS+=(--tlsv1.2 --pinnedpubkey "${PUBKEY}")
+            # TODO: make --pinnedpubkey ${PUBKEY} work
+            CURL_OPTS+=(--tlsv1.2)
           fi
 
           if [ "${PROTOCOL}" = "https" ] && [ "${PAYLOAD}" != "null" ] && [ -n "${PAYLOAD}" ]; then

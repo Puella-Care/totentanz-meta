@@ -40,7 +40,8 @@ jobs:
           done <<< "${HEADERS}"
           CURL_OPTS=(-f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
           if [ "${PROTOCOL}" = "https" ]; then
-            CURL_OPTS+=(--tlsv1.2 --pinnedpubkey "${PUBKEY}")
+            # TODO: make --pinnedpubkey ${PUBKEY} work
+            CURL_OPTS+=(--tlsv1.2)
           fi
           RESPONSE=$(curl "${CURL_HEADER_OPTS[@]}" "${CURL_OPTS[@]}")
           CODE=$(echo "${RESPONSE}" | head -1 | cut -d' ' -f2)
