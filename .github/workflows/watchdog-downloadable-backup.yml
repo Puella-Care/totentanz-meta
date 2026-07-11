@@ -38,7 +38,9 @@ jobs:
           MURL="${BASE_URL}/magica/resource/download/asset/master/asset_${MANIFEST}.json.gz"
           M_BODY="$(mktemp)"
           M_HDRS="$(mktemp)"
-          curl -s -f --compressed --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" -D "${M_HDRS}" -o "${M_BODY}" "${MURL}"
+
+          # TODO: make --pinnedpubkey ${PUBKEY} work
+          curl -s -f --compressed "${CURL_HEADER_OPTS[@]}" -D "${M_HDRS}" -o "${M_BODY}" "${MURL}"
           grep -qi '^Content-Encoding: gzip' "${M_HDRS}"
           rm -f "${M_HDRS}"
 
