@@ -36,12 +36,14 @@ jobs:
         run: |
           PROTOCOL="${{ matrix.protocol }}"
           FILEPATH="${{ matrix.path }}"
-          case "${{ matrix.compression }}" in
-            idendity) ACCEPT_ENCODING="identity"
-            gzip)     ACCEPT_ENCODING="gzip" ;;
-            br)       ACCEPT_ENCODING="br" ;;
-            *)        ACCEPT_ENCODING="" ;;
-          esac
+          COMPRESSION="${{ matrix.compression }}"
+          if [ "${COMPRESSION}" = "gzip" ]; then
+            ACCEPT_ENCODING="gzip"
+          elif [ "${COMPRESSION}" = "br" ]; then
+            ACCEPT_ENCODING="br"
+          elif [ "${COMPRESSION}" = "identity" ]; then
+            ACCEPT_ENCODING="identity"
+          fi
 
           BODYFILE=$(mktemp)
           CURL_HEADER_OPTS=()
@@ -71,17 +73,13 @@ jobs:
           fi
 
           CONTENT_ENCODING=$(echo "${RESPONSE}" | grep -i '^Content-Encoding:' | head -1 | cut -d' ' -f2- | tr -d '\r')
-          case "${{ matrix.compression }}" in
-            identity)
-              [ -z "${CONTENT_ENCODING}" ]
-              ;;
-            gzip)
-              test "${CONTENT_ENCODING}" = "gzip"
-              ;;
-            br)
-              test "${CONTENT_ENCODING}" = "br"
-              ;;
-          esac
+          if [ "${COMPRESSION}" = "gzip" ]; then
+            test "${CONTENT_ENCODING}" = "gzip"
+          elif [ "${COMPRESSION}" = "br" ]; then
+            test "${CONTENT_ENCODING}" = "br"
+          elif [ "${COMPRESSION}" = "identity" ]; then
+            test -z "${CONTENT_ENCODING}"
+          fi
 
           if [ "${PROTOCOL}" = "https" ]; then
             test "${CODE}" = "200"
