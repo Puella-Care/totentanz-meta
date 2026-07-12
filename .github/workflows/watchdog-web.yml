@@ -52,7 +52,7 @@ jobs:
           done <<< "${HEADERS}"
           CURL_OPTS=(-f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
           if [ -n "${ACCEPT_ENCODING}" ]; then
-            CURL_OPTS+=("-H" "Accept-Encoding: ${ACCEPT_ENCODING}")
+            CURL_OPTS+=("--compressed" "-H" "Accept-Encoding: ${ACCEPT_ENCODING}")
           fi
           if [ "${PROTOCOL}" = "https" ]; then
             # TODO: make --pinnedpubkey ${PUBKEY} work
