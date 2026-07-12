@@ -15,10 +15,10 @@ jobs:
           - http
           - https
         path:
-          - index.html
-          - css/etc/Help.css
-          - js/etc/Help.js
-          - json/maintenance/maintenance.json
+          - index.html comp
+          - css/etc/Help.css comp
+          - js/etc/Help.js comp
+          - json/maintenance/maintenance.json comp
           - resource/image_web/common/global/connecting.png
           - resource/image_web/test/bg/web_common.jpg
         compression:
@@ -35,8 +35,14 @@ jobs:
           HEADERS: ${{ secrets.HEADERS }}
         run: |
           PROTOCOL="${{ matrix.protocol }}"
-          FILEPATH="${{ matrix.path }}"
-          COMPRESSION="${{ matrix.compression }}"
+          PATH_ENTRY="${{ matrix.path }}"
+          FILEPATH="${PATH_ENTRY% *}"
+          COMP_FLAG="${PATH_ENTRY#* }"
+          if [ "${COMP_FLAG}" = "comp" ]; then
+            COMPRESSION="${{ matrix.compression }}"
+          else
+            COMPRESSION="identity"
+          fi
           if [ "${COMPRESSION}" = "gzip" ]; then
             ACCEPT_ENCODING="gzip"
           elif [ "${COMPRESSION}" = "br" ]; then
