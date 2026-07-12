@@ -78,17 +78,16 @@ jobs:
             test "${SIZE}" -eq 0
           fi
 
-          CONTENT_ENCODING=$(echo "${RESPONSE}" | grep -i '^Content-Encoding:' | head -1 | cut -d' ' -f2- | tr -d '\r')
-          if [ "${COMPRESSION}" = "gzip" ]; then
-            test "${CONTENT_ENCODING}" = "gzip"
-          elif [ "${COMPRESSION}" = "br" ]; then
-            test "${CONTENT_ENCODING}" = "br"
-          elif [ "${COMPRESSION}" = "identity" ]; then
-            test -z "${CONTENT_ENCODING}"
-          fi
-
           if [ "${PROTOCOL}" = "https" ]; then
             test "${CODE}" = "200"
+            CONTENT_ENCODING=$(echo "${RESPONSE}" | grep -i '^Content-Encoding:' | head -1 | cut -d' ' -f2- | tr -d '\r')
+            if [ "${COMPRESSION}" = "gzip" ]; then
+              test "${CONTENT_ENCODING}" = "gzip"
+            elif [ "${COMPRESSION}" = "br" ]; then
+              test "${CONTENT_ENCODING}" = "br"
+            elif [ "${COMPRESSION}" = "identity" ]; then
+              test -z "${CONTENT_ENCODING}"
+            fi
             case "${FILEPATH##*.}" in
               html) file "${BODYFILE}" | grep -q HTML ;;
               css)  file "${BODYFILE}" | grep -q text ;;
