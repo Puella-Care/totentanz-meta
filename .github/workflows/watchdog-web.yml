@@ -21,6 +21,10 @@ jobs:
           - json/maintenance/maintenance.json
           - resource/image_web/common/global/connecting.png
           - resource/image_web/test/bg/web_common.jpg
+        compression:
+          - identity
+          - gzip
+          - br
 
     steps:
       - name: Test ${{ matrix.protocol }} ${{ matrix.path }}
@@ -32,6 +36,12 @@ jobs:
         run: |
           PROTOCOL="${{ matrix.protocol }}"
           FILEPATH="${{ matrix.path }}"
+          case "${{ matrix.compression }}" in
+            idendity) ACCEPT_ENCODING="identity"
+            gzip)     ACCEPT_ENCODING="gzip" ;;
+            br)       ACCEPT_ENCODING="br" ;;
+            *)        ACCEPT_ENCODING="" ;;
+          esac
 
           BODYFILE=$(mktemp)
           CURL_HEADER_OPTS=()
@@ -39,6 +49,9 @@ jobs:
             CURL_HEADER_OPTS+=("-H" "${line}")
           done <<< "${HEADERS}"
           CURL_OPTS=(-f -s -D - -o "${BODYFILE}" "${PROTOCOL}://${HOST}/${SUBPATH}/${FILEPATH}")
+          if [ -n "${ACCEPT_ENCODING}" ]; then
+            CURL_OPTS+=("-H" "Accept-Encoding: ${ACCEPT_ENCODING}")
+          fi
           if [ "${PROTOCOL}" = "https" ]; then
             # TODO: make --pinnedpubkey ${PUBKEY} work
             CURL_OPTS+=(--tlsv1.2)
@@ -56,6 +69,19 @@ jobs:
             SIZE=$(stat -c%s "${BODYFILE}")
             test "${SIZE}" -eq 0
           fi
+
+          CONTENT_ENCODING=$(echo "${RESPONSE}" | grep -i '^Content-Encoding:' | head -1 | cut -d' ' -f2- | tr -d '\r')
+          case "${{ matrix.compression }}" in
+            identity)
+              [ -z "${CONTENT_ENCODING}" ]
+              ;;
+            gzip)
+              test "${CONTENT_ENCODING}" = "gzip"
+              ;;
+            br)
+              test "${CONTENT_ENCODING}" = "br"
+              ;;
+          esac
 
           if [ "${PROTOCOL}" = "https" ]; then
             test "${CODE}" = "200"
