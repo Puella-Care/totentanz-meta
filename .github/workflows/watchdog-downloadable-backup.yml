@@ -60,7 +60,7 @@ jobs:
             CHUNK_REL=$(jq -r ".file_list[${i}].url" <<< "${MANIFEST_JSON}")
             CHUNK_SIZE_EXPECT=$(jq -r ".file_list[${i}].size" <<< "${MANIFEST_JSON}")
             CHUNK_URL="${BASE_URL}/magica/resource/download/asset/master/resource/${CHUNK_REL}"
-            CHUNK_BYTES=$(curl -s -f --pinnedpubkey "${PUBKEY}" "${CURL_HEADER_OPTS[@]}" "${CHUNK_URL}" | tee -a "${ASSEMBLED}" | wc -c | tr -d '[:space:]')
+            CHUNK_BYTES=$(curl -s -f "${CURL_HEADER_OPTS[@]}" "${CHUNK_URL}" | tee -a "${ASSEMBLED}" | wc -c | tr -d '[:space:]')
             test "${CHUNK_BYTES}" -eq "${CHUNK_SIZE_EXPECT}"
           done
 
