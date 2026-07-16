@@ -70,7 +70,7 @@ jobs:
           RESPONSE=$(curl "${CURL_HEADER_OPTS[@]}" "${CURL_OPTS[@]}")
           CODE=$(echo "${RESPONSE}" | head -1 | cut -d' ' -f2)
 
-          SERVER=$(echo "${RESPONSE}" | grep -i '^Server:' | head -1 | cut -d' ' -f2- | tr -d '\r')
+          SERVER=$(echo "${RESPONSE}" | grep -i '^X-Server:' | head -1 | cut -d' ' -f2- | tr -d '\r')
           test "${SERVER}" = "Totentanz"
 
           if [ "${PROTOCOL}" = "http" ]; then

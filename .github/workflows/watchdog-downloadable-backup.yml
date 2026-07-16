@@ -41,7 +41,7 @@ jobs:
 
           # TODO: make --pinnedpubkey ${PUBKEY} work
           curl -s -f --compressed "${CURL_HEADER_OPTS[@]}" -D "${M_HDRS}" -o "${M_BODY}" "${MURL}"
-          grep -qi '^Content-Encoding: gzip' "${M_HDRS}"
+          #grep -qi '^Content-Encoding: gzip' "${M_HDRS}"
           rm -f "${M_HDRS}"
 
           jq . "${M_BODY}" > /dev/null
