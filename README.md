@@ -228,9 +228,9 @@ If you sponsor the project using Boosty without sending a message through it, in
 If you feel like your name must be here, or if you wish it to be changed, or if you wish it to be removed, or you wish to change avatar here, please open a PR or contact me.  
 The list is sorted alphabetically, case-insensitive.
 
-| ![Antimony](https://images.boosty.to/user/40383229/avatar?croped=1&mh=64&mw=64) | ![Axel Katsuragi](https://images.boosty.to/user/40386153/avatar?croped=1&mh=64&mw=64)| ![Destroyer068](https://images.boosty.to/user/40393353/avatar?croped=1&mh=64&mw=64) | ![igi](https://images.boosty.to/user/40384011/avatar?croped=1&mh=64&mw=64) | ![IzunaMoon](https://cdn.discordapp.com/avatars/644342720755925002/b782ba38066f22df493aec7fbcdac6ee.webp?size=64) | ![Izzy](https://cdn.discordapp.com/avatars/322449352721301504/48bd27a219b16e46815f4dbe4ab01582.webp?size=64) | ![Pontiff](https://images.boosty.to/user/40748117/avatar?croped=1&mh=64&mw=64) | ![Pythie Frederica](#) | ![VirusLord](https://images.boosty.to/user/40383226/avatar?croped=1&mh=64&mw=64) |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| Antimony | Axel Katsuragi | Destroyer068 | igi | IzunaMoon | Izzy | Pontiff | Pythie Frederica | VirusLord |
+| ![Antimony](https://images.boosty.to/user/40383229/avatar?croped=1&mh=64&mw=64) | ![Axel Katsuragi](https://images.boosty.to/user/40386153/avatar?croped=1&mh=64&mw=64)| ![Destroyer068](https://images.boosty.to/user/40393353/avatar?croped=1&mh=64&mw=64) | ![igi](https://images.boosty.to/user/40384011/avatar?croped=1&mh=64&mw=64) | ![IzunaMoon](https://cdn.discordapp.com/avatars/644342720755925002/b782ba38066f22df493aec7fbcdac6ee.webp?size=64) | ![Izzy](https://cdn.discordapp.com/avatars/322449352721301504/48bd27a219b16e46815f4dbe4ab01582.webp?size=64) | ![licinine](https://images.boosty.to/user/46006255/avatar?croped=1&mh=64&mw=64) | ![Pontiff](https://images.boosty.to/user/40748117/avatar?croped=1&mh=64&mw=64) | ![Pythie Frederica](#) | ![VirusLord](https://images.boosty.to/user/40383226/avatar?croped=1&mh=64&mw=64) |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| Antimony | Axel Katsuragi | Destroyer068 | igi | IzunaMoon | Izzy | licinine | Pontiff | Pythie Frederica | VirusLord |
 
 ---
 
