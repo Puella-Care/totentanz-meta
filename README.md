@@ -104,7 +104,7 @@ A: JavaScript, the only dependency is [`fastify`](https://github.com/fastify/fas
 A: Various.
 
 **Q: Was AI used in the development process?**  
-A: No. I am not strictly against AI, but the code quality of current models is too low, and it pushes code to gray legal area.
+A: Never.
 
 **Q: What was used as reference for development?**  
 A: The data collected within [`puella-historia`](https://github.com/LiviaMedeiros/puella-historia) project. No other code nor data source was used.
